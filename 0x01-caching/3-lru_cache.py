@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""module for FIFO cache"""
+"""module for LRU cache"""
 from datetime import datetime
 
 BaseCaching = __import__('base_caching').BaseCaching
