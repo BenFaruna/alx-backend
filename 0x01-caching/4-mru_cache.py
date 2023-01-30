@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """module for MRU cache"""
-from datetime import datetime
 
 BaseCaching = __import__('base_caching').BaseCaching
 
@@ -37,4 +36,3 @@ class MRUCache(BaseCaching):
             self.order.append(key)
             return self.cache_data[key]
         return None
-
