@@ -18,9 +18,10 @@ class LFUCache(BaseCaching):
         if key is None or item is None:
             return None
 
-        if len(self.cache_data) >= self.MAX_ITEMS and key not in self.cache_data:
+        if (len(self.cache_data) >= self.MAX_ITEMS) and\
+                (key not in self.cache_data):
             discarded = self.LF_remover()
-            print("DISCARDED:", discarded)
+            print("DISCARD:", discarded)
 
         self.cache_data[key] = item
         if key in self.cache_count:
@@ -28,7 +29,6 @@ class LFUCache(BaseCaching):
         else:
             self.cache_count[key] = 1
             self.LFUorder.append(key)
-
 
     def get(self, key):
         """gets key value from the cache"""
