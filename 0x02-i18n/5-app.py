@@ -47,6 +47,7 @@ def get_user() -> Union[Dict, None]:
 
 @app.before_request
 def before_request() -> Dict:
+    """function returns user and is ran before request"""
     user = get_user()
     flask.g.user = user
 
