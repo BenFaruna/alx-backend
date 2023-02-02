@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """module for flask application routing"""
 from flask import Flask, render_template, request
-from flask_babel import Babel, _
+from flask_babel import Babel, gettext as _
 
 
 class Config(object):
