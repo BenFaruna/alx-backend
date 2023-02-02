@@ -5,13 +5,6 @@ from typing import Union, Dict
 from flask import Flask, g, render_template, request
 from flask_babel import Babel, _
 
-users = {
-    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
-    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
-    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
-    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
-}
-
 
 class Config(object):
     """holds configuration for language supported"""
@@ -28,7 +21,14 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale() -> str:
     """gets the best locale for the user of the webpage"""
-    param = request.args.get('locale')
+    if 'locale' in request.args:
+        param = request.args.get('locale')
+    elif type(get_user()) == dict and 'locale' in get_user():
+        param = getattr(g, 'user', None)['locale']
+    elif 'locale' in request.headers:
+        param = request.headers.get('locale')
+    else:
+        param = None
 
     if param:
         if param in app.config['LANGUAGES']:
@@ -39,7 +39,13 @@ def get_locale() -> str:
 
 def get_user() -> Union[Dict, None]:
     """function returns user if ID is present, else returns None"""
-    id = request.values.get('login_as')
+    users = {
+        1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+        2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+        3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+        4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+    }
+    id = request.args.get('login_as')
     if id:
         return users.get(int(id))
     return None
@@ -55,7 +61,7 @@ def before_request() -> Dict:
 @app.route('/')
 def home():
     """route for homepage"""
-    return render_template('5-index.html', user=getattr(g, 'user', None))
+    return render_template('6-index.html', user=getattr(g, 'user', None))
 
 
 if __name__ == "__main__":
